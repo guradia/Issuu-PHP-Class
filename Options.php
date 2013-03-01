@@ -1,6 +1,21 @@
 <?php
+/**
+ * Issuu Client API (http://www.issuu.com)
+ * 
+ * @link		http://github.com/Astronuts/Issuu-PHP-Class
+ * @copyright	Copyright (c) 2013 Theta Design AS (http://www.thetadesign.no)
+ * @author      Chris Magnussen <chris at thetadesign dot no>
+ * @license		See LICENSE - New BSD License
+ * @package		Core\Issuu
+ */
+ 
 namespace Core\Issuu;
-
+ 
+/**
+ * @category 	Core
+ * @package		Core\Issuu
+ * @subpackage  Options
+ */
 class Options {
     
     /**

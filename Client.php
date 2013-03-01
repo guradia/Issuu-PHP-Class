@@ -1,15 +1,20 @@
 <?php
 /**
- * Theta Framework (http://framework.thetadesign.no)
+ * Issuu Client API (http://www.issuu.com)
  * 
- * @link		http://github.com/ThetaDesignAS/thetaf
+ * @link		http://github.com/Astronuts/Issuu-PHP-Class
  * @copyright	Copyright (c) 2013 Theta Design AS (http://www.thetadesign.no)
- * @license		http://framework.thetadesign.no/license/new-bsd New BSD License
+ * @author      Chris Magnussen <chris at thetadesign dot no>
+ * @license		See LICENSE - New BSD License
  * @package		Core\Issuu
  */
  
+/**
+ * @uses        Core\Issuu\Options
+ */
 namespace Core\Issuu;
 use Core\Issuu\Options;
+use Core\Issuu\Http\Request;
  
 /**
  * @category 	Core
@@ -83,12 +88,14 @@ class Client extends Options {
         return $this->options;
     }
     
-    public function run()
+    public function request($data = null)
     {
-        $query = $this->buildQuery();
-        // Use Curl....
-        $feed = file_get_contents($this->_endpoint."?".$query);
-        return json_decode($feed);
+        $request = new Request();
+        $request->setMethod(Request::METHOD_GET);
+        $request->setUri($this->buildQuery());
+        $response = $request->send($data);
+
+        return json_decode($response);
     }
     
     /**
@@ -113,7 +120,7 @@ class Client extends Options {
         $query['apiKey'] = $this->_appSettings['apiKey'];
         $query = http_build_query(array_filter($query));
         
-        return $query;
+        return $this->_endpoint."?".$query;
         
     }
     
