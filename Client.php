@@ -53,6 +53,11 @@ class Client extends Options {
     protected $postData = null;
     
     /**
+     * @var mixed
+     */
+    public $response;
+    
+    /**
      * Construct with authorization keys
      * 
      * @param string $key API key
@@ -90,6 +95,12 @@ class Client extends Options {
         return $this->options;
     }
     
+    public function adapter($adapter)
+    {
+        $namespace = 'Core\\Issuu\\Adapter\\'.$adapter;
+        return new $namespace($this->_appSettings, $this);
+    }
+    
     public function request($data = null)
     {
         if ($data !== null)
@@ -101,9 +112,9 @@ class Client extends Options {
         $request->setMethod(!is_null($data) ? Request::METHOD_POST : Request::METHOD_GET);
         $request->setUri(!is_null($data) ? $this->_endpoint : $this->_endpoint.'?'.$query);
         
-        $response = $request->send(!is_null($data) ? $query : null);
+        $this->response = json_decode($request->send(!is_null($data) ? $query : null));
 
-        return json_decode($response);
+        return $this->response;
     }
     
     /**
