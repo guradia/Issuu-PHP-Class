@@ -44,7 +44,7 @@ class Documents {
      * @throws \Exception
      * @return array
      */
-    public function latestDocInFolder($folder, $sort = 'publishDate', $pre = true)
+    public function getLatestInFolder($folder, $sort = 'publishDate', $pre = true)
     {
         $this->sort = $sort;
         $this->preSearch = $pre;
