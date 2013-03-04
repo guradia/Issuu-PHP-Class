@@ -9,7 +9,7 @@
  * @package		Core\Issuu
  */
  
-namespace Core\Issuu\Http;
+namespace Issuu\Http;
 
 /**
  * @category 	Core
