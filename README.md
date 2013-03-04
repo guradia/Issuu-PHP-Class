@@ -35,7 +35,7 @@ __Post__ parameters are given in the `request(array[post])` method.
 			'format' => 'json'
 	));
 	
-	$response = $client->request(array("folderName" => "Test folder"));
+	$response = $client->request(array("folderName" => "Testfolder"));
 	
 	print_r($response);
 
@@ -45,7 +45,7 @@ The adapters are providing easier access to the most used functions in the Issuu
 	$client = new Client($apiKey, $apiSecret);
 	$adapter = $client->adapter("Documents");
 	
-	$latest = $adapter->getLatestInFolder($folderName);
+	$latest = $adapter->getLatestInFolder("Testfolder");
 	
 	echo $latest->name;
 	
