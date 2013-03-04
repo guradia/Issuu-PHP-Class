@@ -12,9 +12,9 @@
 /**
  * @uses        Core\Issuu\Options
  */
-namespace Issuu;
-use Issuu\Options;
-use Issuu\Http\Request;
+namespace Core\Issuu;
+use Core\Issuu\Options;
+use Core\Issuu\Http\Request;
  
 /**
  * @category 	Core
