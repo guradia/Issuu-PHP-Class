@@ -49,7 +49,7 @@ class Options {
      * 
      * @var string
      */
-    protected $format = 'xml';
+    protected $format = '';
     
     /**
      * Function wrapper for JSONP requests. See Getting Started for further details
@@ -86,7 +86,7 @@ class Options {
      * 
      * @var string
      */
-    protected $resultOrder = 'asc';
+    protected $resultOrder = '';
     
     /**
      * Zero based index to start pagination from
@@ -100,7 +100,7 @@ class Options {
      * 
      * @var integer
      */
-    protected $pageSize = 10;
+    protected $pageSize = 0;
     
     /**
      * Response parameter to sort the result by. 

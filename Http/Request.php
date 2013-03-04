@@ -10,7 +10,7 @@
  */
  
 namespace Core\Issuu\Http;
- 
+
 /**
  * @category 	Core
  * @package		Core\Issuu
@@ -34,11 +34,6 @@ class Request {
     protected $uri = null;
     
     /**
-     * @var array
-     */
-    protected $headers = array();
-    
-    /**
      * Set the method for this request
      * 
      * @param string $method
@@ -55,6 +50,11 @@ class Request {
         return $this;
     }
     
+    public function getMethod()
+    {
+        return $this->method;
+    }
+    
     public function setUri($uri)
     {
         if (is_string($uri))
@@ -63,39 +63,24 @@ class Request {
         return $this;
     }
     
-    public function setHeaders(Array $headers)
-    {
-        if (is_array($headers))
-            $this->headers = $headers;
-        
-        return $this;
-    }
-    
     public function send($data = null)
     {
         $handle = curl_init();
         curl_setopt($handle, CURLOPT_URL, $this->uri);
-        curl_setopt($handle, CURLOPT_HTTPHEADER, $this->headers);
-        curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($handle, CURLOPT_RETURNTRANSFER, 1);
         
         switch($this->method)
         {
-        
             case 'GET':
                 break;
-        
             case 'POST':
-                curl_setopt($handle, CURLOPT_POST, true);
+                curl_setopt($handle, CURLOPT_POST, 1);
                 curl_setopt($handle, CURLOPT_POSTFIELDS, $data);
                 break;
-        
             case 'PUT':
                 curl_setopt($handle, CURLOPT_CUSTOMREQUEST, 'PUT');
                 curl_setopt($handle, CURLOPT_POSTFIELDS, $data);
                 break;
-        
             case 'DELETE':
                 curl_setopt($handle, CURLOPT_CUSTOMREQUEST, 'DELETE');
                 break;
@@ -103,6 +88,7 @@ class Request {
         
         $response = curl_exec($handle);
         $code = curl_getinfo($handle, CURLINFO_HTTP_CODE);
+        curl_close($handle);
         
         return $response;
     }

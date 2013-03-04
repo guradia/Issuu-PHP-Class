@@ -48,6 +48,11 @@ class Client extends Options {
     private $_appSettings = array();
     
     /**
+     * @var mixed
+     */
+    protected $postData = null;
+    
+    /**
      * Construct with authorization keys
      * 
      * @param string $key API key
@@ -73,9 +78,6 @@ class Client extends Options {
         
         $this->options = $options;
         
-        if (!empty($this->_appSettings))
-            $this->createSignature();
-        
     }
     
     /**
@@ -90,10 +92,16 @@ class Client extends Options {
     
     public function request($data = null)
     {
+        if ($data !== null)
+            $this->postData = $data;
+        
         $request = new Request();
-        $request->setMethod(Request::METHOD_GET);
-        $request->setUri($this->buildQuery());
-        $response = $request->send($data);
+        $query = $this->buildQuery();
+        
+        $request->setMethod(!is_null($data) ? Request::METHOD_POST : Request::METHOD_GET);
+        $request->setUri(!is_null($data) ? $this->_endpoint : $this->_endpoint.'?'.$query);
+        
+        $response = $request->send(!is_null($data) ? $query : null);
 
         return json_decode($response);
     }
@@ -105,14 +113,22 @@ class Client extends Options {
      */
     protected function buildQuery()
     {
+        if (!empty($this->_appSettings))
+            $this->createSignature();
+        
         $query = array("signature" => $this->_signature);
+        
+        if ($this->postData !== null)
+            $query = array_merge($query, $this->postData);
+        
         $options = (array) $this->options;
         
         array_map(function($key, $val) use (&$query) {
             if (strstr($key, '*'))
                 $key = substr($key, 3);
             
-            $query[$key] = $val;
+            if ($val !== '' && $val !== 0 && $val !== null)
+                $query[$key] = $val;
         }, array_keys($options), $options);
         
         ksort($query);
@@ -120,7 +136,7 @@ class Client extends Options {
         $query['apiKey'] = $this->_appSettings['apiKey'];
         $query = http_build_query(array_filter($query));
         
-        return $this->_endpoint."?".$query;
+        return $query;
         
     }
     
@@ -136,6 +152,9 @@ class Client extends Options {
         $options = (array) $this->options;
         $options['apiKey'] = $this->_appSettings['apiKey'];
         
+        if ($this->postData !== null)
+            $options = array_merge($options, $this->postData);
+        
         array_map(function($key, $val) use (&$ph) {
             if (strstr($key, '*'))
                 $key = substr($key, 3);
@@ -148,8 +167,13 @@ class Client extends Options {
         
         foreach ($ph as $key => $val)
             $signature .= $key.$val;
-        
+
         $this->_signature = md5($signature);
+    }
+    
+    public function getSignature()
+    {
+        return $this->_signature;
     }
     
     /**
