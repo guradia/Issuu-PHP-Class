@@ -40,7 +40,7 @@ __Post__ parameters are given in the `request(array[post])` method.
 	print_r($response);
 
 ### Adapters
-The adapters are providing easyier access to the most used functions in the Issuu API. For example, to get the latest document in a specific folder, you can initiate the "Documents" Adapter. In it is a function called `getLatestInFolder(string[folderName])`. See the example below:
+The adapters are providing easier access to the most used functions in the Issuu API. For example, to get the latest document in a specific folder, you can initiate the "Documents" Adapter. In it is a function called `getLatestInFolder(string[folderName])`. See the example below:
 
 	$client = new Client($apiKey, $apiSecret);
 	$adapter = $client->adapter("Documents");
