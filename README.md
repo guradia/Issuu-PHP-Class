@@ -14,7 +14,7 @@ This client uses one/uno/ein/en/um class for managing the connections between th
 			'action' => 'issuu.documents.list',
 			'format' => 'json',
 			'responseParams' => 'name,publishDate',
-			'response' => 'slim' // 'full' = Everything, 'slim' = Only the good stuff.
+			'responseType' => 'slim' // 'full' = Everything, 'slim' = Only the good stuff.
 	));
 	
 	$response = $client->request();

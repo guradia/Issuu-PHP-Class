@@ -58,6 +58,21 @@ class Documents {
         return $document;
     }
     
+    public function createUrl($doc, $options = array())
+    {
+        $opt = array();
+        
+        if (!empty($options))
+            $opt = $options;
+        
+        $opt = http_build_query(array_filter($opt));
+        
+        if (!is_object($doc))
+            throw new \InvalidArgumentException("Invalid argument 'doc[".gettype($doc)."]' should be of type object.");
+        
+        return 'http://issuu.com/'.$doc->username.'/docs/'.$doc->name.'?'.$opt;
+    }
+    
     /**
      * @param string $folder
      * @return Ambigous <boolean, NULL>
@@ -96,7 +111,6 @@ class Documents {
             if (isset($res->document->folders) && in_array($id, $res->document->folders)) {
                 $sort = $this->sort;
                 if ($this->preSearch == true) {
-                    echo date("d.m.Y",strtotime($res->document->$sort));
                     if (strtotime($res->document->$sort) <= time()) {
                         $result = $res->document;
                         break;

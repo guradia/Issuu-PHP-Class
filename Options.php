@@ -118,6 +118,18 @@ class Options {
      */
     protected $responseParams = '';
     
+    /**
+     * Response type 'full' or 'slim'
+     * 
+     * @var string
+     */
+    protected $responseType = 'full';
+    
+    /**
+     * @param array $options
+     * @throws \InvalidArgumentException
+     * @return \Core\Issuu\Options
+     */
     public function __construct($options)
     {
         foreach ($options as $key => $val) {

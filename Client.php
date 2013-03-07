@@ -114,7 +114,7 @@ class Client extends Options {
         
         $this->response = json_decode($request->send(!is_null($data) ? $query : null));
 
-        return $this->response;
+        return $this->options->responseType == 'full' ? $this->response : $this->response->rsp->_content->result->_content;
     }
     
     /**
