@@ -3,5 +3,8 @@
     "authors": [
         {"name": "Chris Magnussen", "email": "chris@thetadesign.no"},
         {"name": "Guradia", "email": "guradia@gmail.com"}
-    ]
+    ],
+    "autoload": {
+        "psr-0": { "Core\\Issuu\\": "" }
+    }
 }
