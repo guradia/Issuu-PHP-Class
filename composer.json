@@ -5,6 +5,6 @@
         {"name": "Guradia", "email": "guradia@gmail.com"}
     ],
     "autoload": {
-        "psr-0": { "Core\\Issuu\\": "" }
+        "psr-4": { "Core\\Issuu\\": "" }
     }
 }
